@@ -1,28 +1,29 @@
-from datetime import date
 from typing import List
 
 import requests
 
 
-class Client:
+class BaseClient:
     """
     Client to interface with the Companies House API.
-
-    Enumerations link:
-    https://raw.githubusercontent.com/companieshouse/
-    api-enumerations/master/constants.yml
     """
 
-    def __init__(self, api_key) -> None:
+    def __init__(self, api_key: str = None) -> None:
         self._domain = "https://api.company-information.service.gov.uk/"
         self._session = requests.Session()
 
         # Basic authentication with API key as username (no password)
         self._session.auth = (api_key, "")
 
+    def company_profile(self, company_number: str = None) -> dict:
+        url = f"{self._domain}company/{company_number}"
+        resp = self._session.get(url)
+        resp.raise_for_status()
+        return resp.json()
+
     def search_all(
         self, q: str = None, items_per_page: int = None, start_index: int = None
-    ):
+    ) -> dict:
         url = f"{self._domain}search"
         resp = self._session.get(
             url,
@@ -42,15 +43,15 @@ class Client:
         company_status: List[str] = None,
         company_subtype: str = None,
         company_type: List[str] = None,
-        dissolved_from: date = None,
-        dissolved_to: date = None,
-        incorporated_from: date = None,
-        incorporated_to: date = None,
+        dissolved_from: str = None,
+        dissolved_to: str = None,
+        incorporated_from: str = None,
+        incorporated_to: str = None,
         location: str = None,
         sic_codes: List[str] = None,
         size: int = None,
         start_index: str = None,
-    ):
+    ) -> dict:
         url = f"{self._domain}advanced-search/companies"
         resp = self._session.get(
             url,

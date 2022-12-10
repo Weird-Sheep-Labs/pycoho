@@ -1,1 +1,1 @@
-from .client import Client
+from .base_client import BaseClient
