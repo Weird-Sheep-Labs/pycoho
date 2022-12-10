@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pycoho"
-version = "0.1.0"
+version = "0.1.1a0"
 description = "A Python wrapper for the UK Companies House API"
 authors = ["Armand Rego <armand@weirdsheeplabs.com>"]
 license = "MIT"
