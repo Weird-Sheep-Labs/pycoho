@@ -36,6 +36,26 @@ class BaseClient:
         resp.raise_for_status()
         return resp.json()
 
+    def search_companies(
+        self,
+        q: str = None,
+        items_per_page: int = None,
+        start_index: int = None,
+        restrictions: str = None,
+    ) -> dict:
+        url = f"{self._domain}search/companies"
+        resp = self._session.get(
+            url,
+            params={
+                "q": q,
+                "items_per_page": items_per_page,
+                "start_index": start_index,
+                "restrictions": restrictions,
+            },
+        )
+        resp.raise_for_status()
+        return resp.json()
+
     def advanced_company_search(
         self,
         company_name_includes: str = None,

@@ -35,6 +35,24 @@ class TestBaseClient(TestCase):
             allow_redirects=True,
         )
 
+    def test_search_companies(self):
+        # Doesn't matter what the actual response is
+        expected_return = {"test": "response"}
+        self.mocked_request.return_value = self._mocked_response(200, expected_return)
+        returned = self.base_client.search_companies(q="tesco")
+        assert returned == expected_return
+        self.mocked_request.assert_called_once_with(
+            "GET",
+            "https://api.company-information.service.gov.uk/search/companies",
+            params={
+                "q": "tesco",
+                "items_per_page": None,
+                "start_index": None,
+                "restrictions": None,
+            },
+            allow_redirects=True,
+        )
+
     def test_advanced_company_search(self):
         # Doesn't matter what the actual response is
         expected_return = {"test": "response"}
