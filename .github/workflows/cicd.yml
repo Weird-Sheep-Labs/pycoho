@@ -42,7 +42,8 @@ jobs:
       - name: Deploy to PyPi
         run: |
           . install_poetry.sh
-          poetry publish --build -u ${{ secrets.PYPI_USERNAME}} -p ${{ secrets.PYPI_PASSWORD }}
+          poetry config pypi-token.pycoho ${{ secrets.PYPI_TOKEN }}
+          poetry publish --build
       - name: Git tag
         run: |
           export VERSION=$(poetry version -s)
@@ -66,7 +67,8 @@ jobs:
       - name: Deploy to PyPi
         run: |
           . install_poetry.sh
+          poetry config pypi-token.pycoho ${{ secrets.PYPI_TOKEN }}
           poetry version prerelease
-          poetry publish --build -u ${{ secrets.PYPI_USERNAME}} -p ${{ secrets.PYPI_PASSWORD }}
+          poetry publish --build
           git commit -a -m "Prerelease bumped version [skip ci]"
           git push
